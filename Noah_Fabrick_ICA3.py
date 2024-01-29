@@ -1,13 +1,16 @@
 # By: Noah Fabrick
 
-class courses:
-    def __init__(self,subject,number,name):
-        self.subject = subject
-        self.number = number
-        self.name = name
+class transportation:
+    def __init__(self,type,range,capacity):
+        self.type = type
+        self.range = range
+        self.capacity = capacity
 
-c1 = courses('AERO',470,'Model-Based Systems Engineering')
+    def __str__():
+        
 
-class GEs(courses):
+t1 = transportation('Airplanes',9000,800)
+
+class cars(transportation):
     pass
 
