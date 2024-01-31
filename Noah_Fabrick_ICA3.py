@@ -25,10 +25,10 @@ class cars(transportation):
         self.color = color
     
     def whatColor(self):
-        print("The ",self.type,"is",self.color)
+        print("The",self.make,self.model,"is",self.color)
 
     def whatBrand(self):
-        print("The ",self.type,"is a",self.make,self.model)
+        print("The",self.type,"is a",self.make,self.model)
 
 class planes(transportation):
     def __init__(self,type,range,capacity,airline,make,model):
@@ -36,4 +36,6 @@ class planes(transportation):
         self.airline = airline
         self.make = make
         self.model = model
-        
+
+    def __str__(self):
+        return f"{self.airline}'s {self.make} {self.model} can move up to {self.capacity} people a maximum distance of {self.range} miles."
