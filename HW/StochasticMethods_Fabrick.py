@@ -33,7 +33,8 @@ r = 1
 N = 1000
 piHat,xHat,yHat = monteCarloPi(r,N)
 print("PI ~=", piHat)
+plt.scatter(xHat,yHat)
 
-for i in N:
-    if xHat(i)**2 + yHat(i)**2 <= r**2:
-        plt.scatter(xHat,yHat)
+# for i in N:
+#     if xHat(i)**2 + yHat(i)**2 <= r**2:
+#         plt.scatter(xHat,yHat)
