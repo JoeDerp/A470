@@ -3,6 +3,7 @@
 
 
 import random
+import matplotlib as mlt
 import matplotlib.pyplot as plt
 
 def monteCarloPi(r,N):
