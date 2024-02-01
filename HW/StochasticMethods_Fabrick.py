@@ -3,8 +3,8 @@
 
 
 import random
-import matplotlib as mlt
 import matplotlib.pyplot as plt
+import matplotlib as mlt
 
 def monteCarloPi(r,N):
     '''
@@ -31,11 +31,16 @@ def monteCarloPi(r,N):
     return piHat,xHat,yHat
 
 r = 1
-N = 1000
+N = 100
 piHat,xHat,yHat = monteCarloPi(r,N)
 print("PI ~=", piHat)
-plt.scatter(xHat,yHat)
+# plt.scatter(xHat,yHat)
 
-# for i in N:
-#     if xHat(i)**2 + yHat(i)**2 <= r**2:
-#         plt.scatter(xHat,yHat)
+
+for i in range(N):
+    if xHat[i]**2 + yHat[i]**2 <= r**2:
+        plt.scatter(xHat[i],yHat[i],None,'b')
+    else:
+        plt.scatter(xHat[i],yHat[i],None,'g')
+
+plt.show()
