@@ -9,7 +9,7 @@ import matplotlib as mlt
 def monteCarloPi(r,N):
     '''
     N is number of trials
-    Eqn. of circle -> x^2+y^2=r^2
+    pythagoras -> x^2+y^2=r^2
     Area for quarter circle -> A_c = (PI*r^2)/4
     Area for square -> A_s = r^2
     To estimate pi use -> PI = 4*(A_c/A_s)
@@ -31,16 +31,20 @@ def monteCarloPi(r,N):
     return piHat,xHat,yHat
 
 r = 1
-N = 100
+N = 1000
 piHat,xHat,yHat = monteCarloPi(r,N)
 print("PI ~=", piHat)
 # plt.scatter(xHat,yHat)
 
+fig1, ax1 = plt.subplots()
 
 for i in range(N):
     if xHat[i]**2 + yHat[i]**2 <= r**2:
-        plt.scatter(xHat[i],yHat[i],None,'b')
+        ax1.scatter(xHat[i],yHat[i],None,'b')
     else:
-        plt.scatter(xHat[i],yHat[i],None,'g')
+        ax1.scatter(xHat[i],yHat[i],None,'g')
 
-plt.show()
+ax1.set_title('Monte Carlo Estimation of Pi')
+ax1.set_ylabel('Y')
+ax1.set_xlabel('X')
+fig1.show()
