@@ -3,8 +3,11 @@
 
 
 import random
+import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mlt
+
+# Problem 1
 
 def monteCarloPi(r,N):
     '''
@@ -30,21 +33,33 @@ def monteCarloPi(r,N):
 
     return piHat,xHat,yHat
 
-r = 1
-N = 1000
-piHat,xHat,yHat = monteCarloPi(r,N)
-print("PI ~=", piHat)
-# plt.scatter(xHat,yHat)
+# r = 2
+# N = 1000
+# piHat,xHat,yHat = monteCarloPi(r,N)
+# print("PI ~=", piHat)
 
-fig1, ax1 = plt.subplots()
+# # Plot points on a scatter plot, blue if out of r, green if within r
+# fig1, ax1 = plt.subplots()
+# for i in range(N):
+#     if xHat[i]**2 + yHat[i]**2 <= r**2:
+#         ax1.scatter(xHat[i],yHat[i],None,'b')
+#     else:
+#         ax1.scatter(xHat[i],yHat[i],None,'g')
 
-for i in range(N):
-    if xHat[i]**2 + yHat[i]**2 <= r**2:
-        ax1.scatter(xHat[i],yHat[i],None,'b')
-    else:
-        ax1.scatter(xHat[i],yHat[i],None,'g')
+# # Create unit circle with radius r using numpy
+# theta = np.linspace(0,np.pi/2)
+# yCirc = r*np.sin(theta)
+# xCirc = r*np.cos(theta)
+# ax1.plot(xCirc,yCirc,color='r')
+# ax1.set_title('Monte Carlo Estimation of Pi')
+# ax1.set_ylabel('Y')
+# ax1.set_xlabel('X')
+# ax1.grid(True)
 
-ax1.set_title('Monte Carlo Estimation of Pi')
-ax1.set_ylabel('Y')
-ax1.set_xlabel('X')
-fig1.show()
+
+# Problem 2
+
+def monteCarloMVT(func, xRange, N):
+
+
+plt.show()
