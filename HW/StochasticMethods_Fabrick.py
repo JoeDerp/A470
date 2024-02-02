@@ -59,7 +59,23 @@ def monteCarloPi(r,N):
 
 # Problem 2
 
-def monteCarloMVT(func, xRange, N):
+def monteCarloMVT_Integral(func, xMin, xMax, N):
+    sum = 0
+    for i in range(N):
+        xHat = random.uniform(xMin,xMax)
+        sum += func(xHat)
+    return ((xMax-xMin)*sum)/N
 
+func = lambda x : x**3*np.sin(x)
+xMin = -2
+xMax = 3
+trueVal = 15.66464985
+absTol = 1
+N = 0
+while absTol > 0.001:
+    N += 10
+    mcVal = monteCarloMVT_Integral(func, xMin, xMax, N)
+    absTol = abs(trueVal-mcVal)
 
-plt.show()
+print(monteCarloMVT_Integral(func,-2,3,10000))
+print(mcVal,"in",N)
