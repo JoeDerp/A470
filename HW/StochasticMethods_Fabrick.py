@@ -66,16 +66,25 @@ def monteCarloMVT_Integral(func, xMin, xMax, N):
         sum += func(xHat)
     return ((xMax-xMin)*sum)/N
 
-func = lambda x : x**3*np.sin(x)
-xMin = -2
-xMax = 3
-trueVal = 15.66464985
-absTol = 1
-N = 0
-while absTol > 0.001:
-    N += 10
-    mcVal = monteCarloMVT_Integral(func, xMin, xMax, N)
-    absTol = abs(trueVal-mcVal)
+# func = lambda x : x**3*np.sin(x)
+# xMin = -2
+# xMax = 3
+# trueVal = 15.66464985
+# absTol = 1
+# N = 0
+# while absTol > 0.001:
+#     N += 10
+#     mcVal = monteCarloMVT_Integral(func, xMin, xMax, N)
+#     absTol = abs(trueVal-mcVal)
 
-print(monteCarloMVT_Integral(func,-2,3,10000))
-print(mcVal,"in",N)
+# print(monteCarloMVT_Integral(func,-2,3,10000))
+# print(mcVal,"in",N)
+
+# Problem 3
+
+def monteCarloGasLaw(P0,rho0,R0,T0, err):
+    
+
+
+
+    return None
