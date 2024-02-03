@@ -37,8 +37,8 @@ def monteCarloPi(r,N):
 # N = 1000
 # piHat,xHat,yHat = monteCarloPi(r,N)
 # print("PI ~=", piHat)
-
-# # Plot points on a scatter plot, blue if out of r, green if within r
+#
+# Plot points on a scatter plot, blue if out of r, green if within r
 # fig1, ax1 = plt.subplots()
 # for i in range(N):
 #     if xHat[i]**2 + yHat[i]**2 <= r**2:
@@ -78,13 +78,25 @@ def monteCarloMVT_Integral(func, xMin, xMax, N):
 #     absTol = abs(trueVal-mcVal)
 
 # print(monteCarloMVT_Integral(func,-2,3,10000))
-# print(mcVal,"in",N)
+# print(mcVal,"in",N,"times within an absolute tolerance of",absTol)
 
 # Problem 3
 
-def monteCarloGasLaw(P0,rho0,R0,T0, err):
-    
+def monteCarloGasLaw(P0, T0, pErr, tErr, rGas, N):
+    rho0 = P0/(rGas*T0)
+    sum = 0
+    for i in range(N):
+        T_Hat = random.normalvariate(T0,tErr)
+        pHat = random.normalvariate(P0,pErr)
+        sum += pHat/T_Hat
+    rhoHat = sum/(rGas*N)
+    rhoErr = abs(rho0-rhoHat)
+    return rhoHat, rho0, rhoErr
 
-
-
-    return None
+P0 = 104847 # Pa
+pErr = 52
+T0 = 25 + 273.15 # convert C to K
+tErr = 0.2 + 273.15
+rGas = 287.053 # J/kg*K
+rhoHat, rho0, rhoErr = monteCarloGasLaw(P0, T0, pErr, tErr, rGas, 10000)
+print("mc rho:",rhoHat,"0 err rho:",rho0,'rho err:',rhoErr)
