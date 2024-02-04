@@ -83,20 +83,37 @@ def monteCarloMVT_Integral(func, xMin, xMax, N):
 # Problem 3
 
 def monteCarloGasLaw(P0, T0, pErr, tErr, rGas, N):
-    rho0 = P0/(rGas*T0)
+    rho0 = P0/(rGas*(T0+273.15))
     sum = 0
     for i in range(N):
-        T_Hat = random.normalvariate(T0,tErr)
+        T_Hat = random.normalvariate(T0,tErr) + 273.15 # convert to K
         pHat = random.normalvariate(P0,pErr)
         sum += pHat/T_Hat
     rhoHat = sum/(rGas*N)
     rhoErr = abs(rho0-rhoHat)
     return rhoHat, rho0, rhoErr
 
-P0 = 104847 # Pa
-pErr = 52
-T0 = 25 + 273.15 # convert C to K
-tErr = 0.2 + 273.15
-rGas = 287.053 # J/kg*K
-rhoHat, rho0, rhoErr = monteCarloGasLaw(P0, T0, pErr, tErr, rGas, 10000)
-print("mc rho:",rhoHat,"0 err rho:",rho0,'rho err:',rhoErr)
+# P0 = 104847 # Pa
+# pErr = 52
+# T0 = 25 # deg C
+# tErr = 0.2
+# rGas = 287.053 # J/kg*K
+# rhoHat, rho0, rhoErr = monteCarloGasLaw(P0, T0, pErr, tErr, rGas, 1)
+# print("mc rho:",rhoHat,"0 err rho:",rho0,'rho err:',rhoErr)
+
+# pErrs = []
+# rhoErrs = []
+# pErr0 = 0
+# for i in range(16):
+#     NaN, NaN, rhoErr0 = monteCarloGasLaw(P0,T0,pErr0,tErr,rGas,1)
+#     pErr0 += 50
+#     pErrs.append(pErr0)
+#     rhoErrs.append(rhoErr0)
+# fig2, ax2 = plt.subplots()
+# ax2.plot(pErrs,rhoErrs)
+# ax2.set_title('Monte Carlo Estimation of Air Density with Ideal Gas Law')
+# ax2.set_ylabel('Absolute Error in Density [kg/m^3]')
+# ax2.set_xlabel('Absolute Error in Pressure [Pa]')
+# ax2.grid(True)
+# plt.show()
+    
