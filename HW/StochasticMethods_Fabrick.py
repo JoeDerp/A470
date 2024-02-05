@@ -116,4 +116,23 @@ def monteCarloGasLaw(P0, T0, pErr, tErr, rGas, N):
 # ax2.set_xlabel('Absolute Error in Pressure [Pa]')
 # ax2.grid(True)
 # plt.show()
-    
+
+# Problem 4
+
+def monteCarloProfitCalc(unitPrice,unitSales,varCost,fixedCost,N):
+    unitPriceHat = np.random.default_rng().triangular(unitPrice[0],unitPrice[1],unitPrice[2],N)
+    unitSalesHat = np.random.default_rng().triangular(unitSales[0],unitSales[1],unitSales[2],N)
+    varCostHat = np.random.default_rng().triangular(varCost[0],varCost[1],varCost[2],N)
+    fixedCostHat = np.random.default_rng().triangular(fixedCost[0],fixedCost[1],fixedCost[2],N)
+    earnings = []
+    for i in range(N):
+        earnings.append(unitPriceHat[i]*unitSalesHat[i] - (varCostHat[i]+fixedCostHat[i]))
+    return earnings
+
+unitPrice = (50,55,70)
+unitSales = (2000,2440,3000)
+varCost = (50000,55200,65000)
+fixedCost = (10000,14000,20000)
+earnings = monteCarloProfitCalc(unitPrice,unitSales,varCost,fixedCost,1000)
+plt.hist(earnings,bins=15)
+plt.show()
