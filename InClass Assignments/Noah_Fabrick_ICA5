@@ -1,0 +1,14 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# evenly sampled time at 200ms intervals
+t = np.linspace(0,10,20)
+
+# red dashes, blue squares and green triangles
+plt.plot(t, t, 'r--', t, t**2, 'y^', t, t**3, 'g.', t, t**2.5, 'c2')
+plt.xlabel('X')
+plt.ylabel('f(X)')
+plt.title('Test of Matplotlib Capabilities')
+plt.legend(['f(x)=x','f(x)=x^2','f(x)=x^3','f(x)=x^2.5'])
+plt.grid(True)
+plt.show()

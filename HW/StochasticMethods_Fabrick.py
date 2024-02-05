@@ -1,11 +1,9 @@
 # HW1 : Stochastic Methods
 # By : Noah Fabrick
 
-
 import random
 import numpy as np
 import matplotlib.pyplot as plt
-import matplotlib as mlt
 
 # Problem 1
 
@@ -33,10 +31,15 @@ def monteCarloPi(r,N):
 
     return piHat,xHat,yHat
 
-r = 2
-N = 1000
-piHat,xHat,yHat = monteCarloPi(r,N)
-print("PI ~=", piHat)
+r = 1
+absTol = 1
+N = 0
+while absTol > 0.031416: # Within 1% of Pi -> absTol = pi*0.01 = 0.031416
+    N += 10
+    pi0,xHat,yHat = monteCarloPi(r,N)
+    absTol = abs(pi0 - np.pi)
+print('Problem 1')   
+print("Monte Carlo method estimated Pi to be", pi0,"in",N,"iterations at",absTol/np.pi,"% away from numpy's Pi.")
 
 # Plot points on a scatter plot, blue if out of r, green if within r
 fig1, ax1 = plt.subplots()
@@ -55,7 +58,6 @@ ax1.set_title('Monte Carlo Estimation of Pi')
 ax1.set_ylabel('Y')
 ax1.set_xlabel('X')
 ax1.grid(True)
-
 
 # Problem 2
 
