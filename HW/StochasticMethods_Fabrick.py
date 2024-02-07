@@ -39,7 +39,7 @@ while absTol > 0.031416: # Within 1% of Pi -> absTol = pi*0.01 = 0.031416
     pi0,xHat,yHat = monteCarloPi(r,N)
     absTol = abs(pi0 - np.pi)
 print('Problem 1')   
-print("Monte Carlo method estimated Pi to be", pi0,"in",N,"iterations at",absTol/np.pi,"% away from numpy's Pi.")
+print("Monte Carlo method estimated Pi to be", pi0,"in",N,"iterations at",(absTol/np.pi)*100,"% away from numpy's Pi.")
 
 # Plot points on a scatter plot, blue if out of r, green if within r
 fig1, ax1 = plt.subplots()
