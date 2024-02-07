@@ -159,19 +159,35 @@ def monteCarloProfitCalc(unitPrice,unitSales,varCost,fixedCost,N):
     for i in range(N):
         # earning = (unit price) × (unit costs) − (variable costs + fixed costs)
         earnings.append(unitPriceHat[i]*unitSalesHat[i] - (varCostHat[i]+fixedCostHat[i]))
-    return earnings
+    
+    xHat = np.mean(earnings) # estimated mean
+    sigHat = np.std(earnings) # estimated standard deviation
+    
+    return earnings, xHat, sigHat
 
 # (min val, mode, max val) given for each input
 unitPrice = (50,55,70)
 unitSales = (2000,2440,3000)
 varCost = (50000,55200,65000)
 fixedCost = (10000,14000,20000)
-# run profit estimation with N = 100,000 iterations
-earnings = monteCarloProfitCalc(unitPrice,unitSales,varCost,fixedCost,100000)
-# plot histogram of generated earnings
+# run profit estimation with N = 10,000 iterations
+earnings1, mean1, std1 = monteCarloProfitCalc(unitPrice,unitSales,varCost,fixedCost,10000)
+
+# 95% confidence interval
+earnings2, mean2, std2 = monteCarloProfitCalc(unitPrice,unitSales,varCost,fixedCost,100) # pilot -> n = 100
+zScore = 1.96
+mu = 1000
+n95 = (std2**2*zScore**2)/mu**2
+earnings3, mean3, std3 = monteCarloProfitCalc(unitPrice,unitSales,varCost,fixedCost,int(n95))
+ci = [mean3 - zScore*(std3/n95**0.5),mean3 + zScore*(std3/n95**0.5)]
+
+print("Problem 4")
+print("95% Confidence Interval of",ci,"with a range of",ci[1]-ci[0],"dollars")
+
+#plot histogram of generated earnings
 fig4, ax4 = plt.subplots()
-ax4.hist(earnings,bins=15)
-ax4.set_title('Computed Earnings Distribution Plot')
+ax4.hist(earnings1,bins=15)
+ax4.set_title('Computed Earnings from 10,000 Monte Carlo Runs',)
 ax4.set_ylabel('# of Occurences')
 ax4.set_xlabel('Computed Earnings [$]')
 ax4.grid(True)
