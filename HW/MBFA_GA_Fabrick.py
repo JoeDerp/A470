@@ -12,8 +12,9 @@ for i in range(len(values)):
 
 # MBFA
 def MBFA_knapsack(pairs, maxWeight):
-    pairsCopy = pairs.copy()
-    knapsack = []
+    pairsCopy = pairs.copy() # Copy pairs, had issues with pairs being deleted upon iteration
+    # Initialize return variables
+    knapsack = [] 
     ksWeight = 0
     ksValue = 0
     attempts = 0
@@ -21,16 +22,20 @@ def MBFA_knapsack(pairs, maxWeight):
         attempts += 1
         i = random.randint(0,len(pairsCopy)-1)
         if pairsCopy[i][0] + ksWeight <= maxWeight:
+            # if random item can be added to ks
             attempts = 0
-            knapsack.append(pairsCopy[i])
-            ksWeight += pairsCopy[i][0]
-            ksValue += pairsCopy[i][1]
-            pairsCopy.pop(i)
+            knapsack.append(pairsCopy[i]) # add item to knapsack
+            ksWeight += pairsCopy[i][0] # add item weight to total weight 
+            ksValue += pairsCopy[i][1] # add item value to total value
+            pairsCopy.pop(i) # remove chosen item from possible options
         elif ksWeight == maxWeight:
+            # Break when max weight is reached
             break
         elif attempts < len(pairsCopy)+1:
+            # Give chance for all pairs to be tried
             pass
         else:
+            # Break when too many attempts, avoids inf loops
             break
 
     return knapsack, ksWeight, ksValue
@@ -46,7 +51,7 @@ while N < 50:
     ksInvs.append(knapsack_i)
     ksWeights.append(ksWeight_i)
     ksValues.append(ksValue_i)
-print('Modified Brute Forrce Algorithm Results after 50 attempts:')
+print('Modified Brute Forrce Algorithm Results after 50 attempts (weight [kg],value [$]):')
 best1 = ksValues.index(max(ksValues))
 print('1st Best Weight:',ksWeights[best1],'  1st Best Value:',ksValues[best1])
 print('1st Best Inventory:',ksInvs[best1])
