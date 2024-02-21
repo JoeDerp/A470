@@ -14,12 +14,19 @@ class Chromosome:
             self.genes[randGene] = 1
         else:
             self.genes[randGene] = 0
-        return self.genes
+        return self
 
     def __add__(self, o):
         # Implement single point crossover with random crossover point
-
-        pass
+        newSelf = Chromosome(numGenes = 20)
+        newO = Chromosome(numGenes = 20)
+        randPoint = random.randint(1,len(self.genes)-1)
+        newSelf.genes = list(self.genes[0:randPoint])
+        newSelf.genes.extend(o.genes[randPoint:len(self.genes)])
+        newO.genes = list(o.genes[0:randPoint])
+        newO.genes.extend(self.genes[randPoint:len(self.genes)])
+        crossed = [newSelf, newO]
+        return crossed
 
 class Population:
 
@@ -31,7 +38,12 @@ class Population:
         # Step 1 - Sort members by fitness
         self.members.sort(key=lambda x:x.fitness)
         # Step 2 - return some number of members based on the ratio provided
+        selection = []
+        for i in range(int(len(self.members)*ratio),len(self.members)):
+            selection.append(self.members[i])
+        return selection
 
+        
 def myFitnessFunction(chrom: Chromosome, vals, weights):
     value = 0
     weight = 0
@@ -49,4 +61,3 @@ def myFitnessFunction(chrom: Chromosome, vals, weights):
     chrom.fitness = value + wFactor
     return chrom.fitness
 
-print(sum([23, 21, 8, 1, 3, 7, 18, 19, 17, 15, 24, 22, 6, 28, 4, 2, 27, 20, 5, 10]))
