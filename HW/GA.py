@@ -42,6 +42,12 @@ class Population:
         for i in range(int(len(self.members)*ratio),len(self.members)):
             selection.append(self.members[i])
         return selection
+    
+    def clean(self):
+        # Function to sort pop and remove any chromosomes that do no meet weight criteria
+        self.members.sort(key=lambda x:x.fitness)
+        self.members = [c for c in self.members if c.fitness != 0]
+        return self.members
 
         
 def myFitnessFunction(chrom: Chromosome, vals, weights):

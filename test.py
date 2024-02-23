@@ -1,29 +1,16 @@
-class CustomMath:
-    def __init__(self, num):
-        self.num = num
-
-    def __add__(self, other):
-        # Override the addition operator to multiply instead
-        return CustomMath(self.num * other)
-
-    def square(self):
-        # Define a custom method to square the number
-        return self.num ** 2
-
-    def cube(self):
-        # Define a custom method to cube the number
-        return self.num ** 3
-    
-    def power(self, exp):
-        # Define a custom method to cube the number
-        self.num = self.num ** exp
-        return self.num
-
+def selection(self, ratio):
+    # Implement Selection
+    # Step 1 - Sort members by fitness
+    self.sort()
+    # Step 2 - return some number of members based on the ratio provided
+    selection = []
+    for i in range(int(len(self)*ratio),len(self)):
+        selection.append(self[i])
+    return selection
 # Example usage:
-num_obj = CustomMath(5)
-newNum = num_obj + 2
-print(newNum.num)  # Output will be 10, because __add__ is overridden
-print(num_obj.square())  # Output will be 25
-print(num_obj.cube())    # Output will be 125
-print(num_obj.power(4))    # Output will be 125
-print(newNum.square())
+
+values = [23, 21, 8, 1, 3, 7, 18, 19, 17, 15, 24, 22, 6, 28, 4, 2, 27, 20, 5, 10]
+
+sorted = values.sort()
+print(values)
+print(selection(values,0.5))
