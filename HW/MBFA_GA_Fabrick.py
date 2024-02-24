@@ -51,7 +51,7 @@ while N < 50:
     ksInvs.append(knapsack_i)
     ksWeights.append(ksWeight_i)
     ksValues.append(ksValue_i)
-print('Modified Brute Forrce Algorithm Results after 50 attempts (weight [kg],value [$]):')
+print('Modified Brute Force Algorithm Results after 50 attempts (weight [kg],value [$]):')
 best1 = ksValues.index(max(ksValues))
 print('1st Best Weight:',ksWeights[best1],'  1st Best Value:',ksValues[best1])
 print('1st Best Inventory:',ksInvs[best1])

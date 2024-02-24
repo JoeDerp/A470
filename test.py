@@ -13,4 +13,4 @@ values = [23, 21, 8, 1, 3, 7, 18, 19, 17, 15, 24, 22, 6, 28, 4, 2, 27, 20, 5, 10
 
 sorted = values.sort()
 print(values)
-print(selection(values,0.5))
+print(selection(values,0.8))

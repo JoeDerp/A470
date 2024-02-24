@@ -8,8 +8,6 @@ weights = [7, 2, 6, 9, 1, 5, 6, 1, 3, 4, 7, 9, 3, 7, 3, 4, 5, 1, 5, 4]
 # Step 1 - Initialize Population
 myPop = GA.Population(populationSize = 20, numGenes = 20)
 
-print([Chrom.fitness for Chrom in myPop.members])
-
 avgFitness = []
 maxFitness = []
 iterations = []
@@ -18,14 +16,14 @@ for i in range(50):
     iterations.append(i+1)
     fitSum = 0
     for c in myPop.members:
-        GA.myFitnessFunction(c,values,weights)
+        c.fitness = GA.myFitnessFunction(c,values,weights)
         fitSum += c.fitness
     avgFitness.append(fitSum/len(myPop.members))
     maxFitness.append(max([Chrom.fitness for Chrom in myPop.members]))
 
     # Step 2 - Selection
     # Supose we selected Chrom 1 and 5
-    selection = myPop.selection(0.2)
+    selection = myPop.selection(0.5)
     # Step 3 - Crossover and Mutate 
     # Crossover will generate new Chromosomes and will look like:
     randCross = random.randint(2,len(selection)-1)
@@ -33,7 +31,7 @@ for i in range(50):
     newRandCross = random.randint(2,len(selection)-1)
     selection.extend(selection[1] + selection[newRandCross])
     selection.extend(selection[0]+selection[1])
-
+    
 
     # Mutation will look like this, but only a small percent of the
     # population Chromosomes will be mutated:
@@ -44,7 +42,7 @@ for i in range(50):
     selection.append(selection[newRandMutate].mutate())
 
     # Step 4 - repeat
-    myPop.members = selection
+    myPop.members = selection.copy()
 
 myPop.clean()
 print([Chrom.fitness for Chrom in myPop.members])
