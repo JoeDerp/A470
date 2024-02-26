@@ -1,4 +1,4 @@
-import GA
+import HW.MBFA_GA.GA as GA
 import random
 import matplotlib.pyplot as plt
 
