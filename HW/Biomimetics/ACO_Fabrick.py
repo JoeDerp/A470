@@ -3,18 +3,10 @@
 
 import numpy as np
 import random as rd
-
-# Step 1 - Initialization
-tau = np.ones((5,5))
-d = np.array([[0,10,12,11,14],[10,0,13,15,8],[12,13,0,9,14],[11,15,9,0,16],[14,8,14,16,0]])
-
-# Step 2 - Visibility Matrix and Probabilities
-
-# Updaate Pheremone Matrix
-
-
+import matplotlib.pyplot as plt
 
 def visMat(d,r):
+    # Create intial visibility matrix, eta = 1/d
     eta = d.astype(float)
     for i in range(len(eta)):
         eta[i][r-1] = 0
@@ -25,6 +17,7 @@ def visMat(d,r):
     return eta
 
 def probability(tau,eta,r,s):
+    # Calculate probabilites of each neighboor, p_rs = tau(r,s)^a*eta(r,s)^b
     probs = []
     a = 1
     b = 2
@@ -34,6 +27,7 @@ def probability(tau,eta,r,s):
     return probs
 
 def chooseNode(probs, s):
+    # Choose next r from random selection from s probabilities
     sumMk = sum(probs)
     probsL = [p_rs/sumMk for p_rs in probs] # Generate local probabilities
     # Generate cumulative probabilities
@@ -49,49 +43,62 @@ def chooseNode(probs, s):
             return new_r
 
 def calcVal(path,d):
+    # Calculate distance traveled value given ant path
     val = 0
     for i in range(1,len(path)):
         val += d[path[i-1]-1][path[i]-1]
     return val
 
-def addPher(path,value,tau):
+def addPher(path,value):
+    # Create update pheremone matrix from path values
     pher = np.zeros((5,5))
     delTau = 1/value
     for i in range(1,len(path)):
         pher[path[i-1]-1][path[i]-1] = delTau
-    # If evap tau
-    newTau = 0.5*tau + pher
-    return newTau
-    # If evap ones
-    # newTau = 0.5*np.ones((5,5)) + pher
-    # return newTau
+    return pher
 
 
-# Test
-# s = [1,2,3,4,5]
-# r = 1
-# s.remove(r)
-# eta = visMat(d,r)
-# probs = probability(tau,eta,r,s)
-# new_r = chooseNode(probs,s)
 
-s = [1,2,3,4,5]
-r = rd.choice(s)
-path = [r]
-s.remove(r)
-eta = visMat(d,r)
-for i in range(4):
-    probs = probability(tau,eta,r,s)
-    r = chooseNode(probs,s)
-    path.append(r)
-    s.remove(r)
-    for j in range(len(eta)):
-        eta[j][r-1] = 0
-path.append(path[0])
-val = calcVal(path,d)
-tau = addPher(path,val,tau)
+# Problem Initialization
+tau = np.ones((5,5))
+d = np.array([[0,10,12,11,14],[10,0,13,15,8],[12,13,0,9,14],[11,15,9,0,16],[14,8,14,16,0]])
+s0 = [1,2,3,4,5]
+numAnts = 3
+iterations = 50
+sols = []
+
+for i in range(iterations):
+    sol_i = []
+    phers = np.zeros((5,5))
+    for i in range(1,numAnts+1):
+        r = rd.choice(s0)
+        path = [r]
+        s = s0.copy()
+        s.remove(r)
+        eta = visMat(d,r)
+        for i in range(4):
+            probs = probability(tau,eta,r,s)
+            r = chooseNode(probs,s)
+            path.append(r)
+            s.remove(r)
+            for j in range(len(eta)):
+                eta[j][r-1] = 0
+        path.append(path[0])
+        val = calcVal(path,d)
+        phers += addPher(path,val)
+        sol_i.append((path,val))
+    tau = 0.5*tau + phers
+    sols.append(sol_i)
 
 
-print(calcVal([1,4,3,5,2,1],d))
-newTau = addPher([1,4,2,5,3,1],60,np.ones((5,5)))
-print(newTau)
+print('The best path found was',sols[len(sols)-1][0][0],' with a distance value of',sols[len(sols)-1][0][1])
+
+avgVals = [(s[0][1]+s[1][1]+s[2][1])/3 for s in sols]
+iters = [i for i in range(1,iterations+1)]
+fig, ax = plt.subplots()
+ax.plot(iters,avgVals)
+ax.set_title('Average Path Distance of Three Ants at each Iteration')
+ax.set_ylabel('Average Path Distance')
+ax.set_xlabel('Iteration')
+ax.grid(True)
+plt.show()
