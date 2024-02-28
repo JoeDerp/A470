@@ -1,30 +1,50 @@
 import numpy as np
-import random as rd
-d = np.array([[0,10,12,11,14],[10,0,13,15,8],[12,13,0,9,14],[11,15,9,0,16],[14,8,14,16,0]])
+import matplotlib.pyplot as plt
 
-# Step 2 - Visibility Matrix and Probabilities
+def ackley(xx, a=20, b=0.2, c=2*np.pi):
+    d = len(xx)
+    sum1 = 0
+    sum2 = 0
+    for ii in range(d):
+        xi = xx[ii]
+        sum1 += xi**2
+        sum2 += np.cos(c * xi)
+    
+    term1 = -a * np.exp(-b * np.sqrt(sum1 / d))
+    term2 = -np.exp(sum2 / d)
+    
+    y = term1 + term2 + a + np.exp(1)
+    
+    return y
 
-# Updaate Pheremone Matrix
+# Example usage:
+xi = np.linspace(-32.768,32.768,100)
+xx = [xi,xi]  # Example input vector xx
+result = ackley(xx)
 
+# x, y = np.meshgrid(xi, xi)
 
-def visMat(d,r):
-    eta = d.astype(float)
-    for i in range(len(eta)):
-        eta[i][r-1] = 0
-        for j in range(len(eta[0])):
-            if j != r-1:
-                if eta[i][j] != 0:
-                    eta[i][j] = 1/eta[i][j]
-    return eta
+# Number of points along each dimension
+num_points = 100
 
-r = 1
-eta = visMat(d,r)
-r = 3
-for j in range(len(eta)):
-    eta[j][r-1] = 0
-print(eta)
-tau = np.ones((5,5))
-print(tau)
-print(tau*0.5)
-tau += visMat(d,r)
-print(tau)
+# Generate coordinates along each dimension
+x_values = xi
+y_values = xi
+z_values = xi
+
+# Create a meshgrid for 3D points
+x_mesh, y_mesh, z_mesh = np.meshgrid(x_values, y_values, z_values)
+
+# Flatten the meshgrid to get a list of 3D points
+points_3d = np.column_stack((x_mesh.flatten(), y_mesh.flatten(), z_mesh.flatten()))
+
+# plt.contourf(x, y, result, cmap='viridis')
+# plt.colorbar(label='Function value')
+# plt.xlabel('X')
+# plt.ylabel('Y')
+# plt.title('Ackley Function')
+
+# plt.show()
+
+print(x_mesh)
+print(x_mesh.flatten())
