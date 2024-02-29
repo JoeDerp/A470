@@ -15,14 +15,20 @@ class Particle:
 
     def updatePos(self):
         self.x = self.x + self.v
+        return self
     
-    def updateVel(self):
-        randP = rd.uniform(0,1)
-        randG = rd.uniform(0,1)
-        self.v = self.v + randP + randG
+    def updateVel(self,p,g):
+        rP = rd.uniform(0,1)
+        rG = rd.uniform(0,1)
+        self.v = self.w*self.v + self.phi_p*rP*(p-self.x) + self.phi_g*rG*(g-self.x) 
+        return self
 
-    def updateValue(self):
-        pass
+    def updateValue(self,p,g):
+        if self.x < p:
+            p = self.x
+        if p < g:
+            g = p
+        return p,g
 
 def ackley3D(x):
     a = 20
