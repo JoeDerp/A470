@@ -1,50 +1,45 @@
-import numpy as np
-import matplotlib.pyplot as plt
+from vpython import *
 
-def ackley(xx, a=20, b=0.2, c=2*np.pi):
-    d = len(xx)
-    sum1 = 0
-    sum2 = 0
-    for ii in range(d):
-        xi = xx[ii]
-        sum1 += xi**2
-        sum2 += np.cos(c * xi)
+# Constants
+G = 6.67430e-11  # Gravitational constant
+m_sun = 1.989e30  # Mass of the sun in kg
+m_earth = 5.972e24  # Mass of the Earth in kg
+m_moon = 7.342e22  # Mass of the Moon in kg
+r_earth = 149.6e9 / 1e8  # Average distance of Earth from Sun in 1e8 meters
+r_moon = 384.4e6 / 1e8  # Average distance of Moon from Earth in 1e8 meters
+v_earth = 29780 / 1e3  # Average velocity of Earth in km/s
+v_moon = 1022 / 1e3  # Average velocity of Moon in km/s
+
+# Define objects
+sun = sphere(pos=vector(0,0,0), radius=0.696e8, color=color.yellow)
+earth = sphere(pos=vector(r_earth,0,0), radius=6.371e6, color=color.blue, make_trail=True)
+moon = sphere(pos=vector(r_earth + r_moon,0,0), radius=1.737e6, color=color.gray(0.5))
+
+# Initial velocities
+earth.velocity = vector(0, v_earth, 0)
+moon.velocity = vector(0, v_earth + v_moon, 0)
+
+# Time step
+dt = 60  # in seconds
+
+# Simulation loop
+while True:
+    rate(1000)
     
-    term1 = -a * np.exp(-b * np.sqrt(sum1 / d))
-    term2 = -np.exp(sum2 / d)
+    # Calculate distance vectors
+    r_earth_sun = sun.pos - earth.pos
+    r_moon_earth = earth.pos - moon.pos
+    r_moon_sun = sun.pos - moon.pos
     
-    y = term1 + term2 + a + np.exp(1)
+    # Calculate gravitational forces
+    F_earth_sun = G * m_sun * m_earth * r_earth_sun / mag(r_earth_sun)**3
+    F_moon_earth = G * m_earth * m_moon * r_moon_earth / mag(r_moon_earth)**3
+    F_moon_sun = G * m_sun * m_moon * r_moon_sun / mag(r_moon_sun)**3
     
-    return y
-
-# Example usage:
-xi = np.linspace(-32.768,32.768,100)
-xx = [xi,xi]  # Example input vector xx
-result = ackley(xx)
-
-# x, y = np.meshgrid(xi, xi)
-
-# Number of points along each dimension
-num_points = 100
-
-# Generate coordinates along each dimension
-x_values = xi
-y_values = xi
-z_values = xi
-
-# Create a meshgrid for 3D points
-x_mesh, y_mesh, z_mesh = np.meshgrid(x_values, y_values, z_values)
-
-# Flatten the meshgrid to get a list of 3D points
-points_3d = np.column_stack((x_mesh.flatten(), y_mesh.flatten(), z_mesh.flatten()))
-
-# plt.contourf(x, y, result, cmap='viridis')
-# plt.colorbar(label='Function value')
-# plt.xlabel('X')
-# plt.ylabel('Y')
-# plt.title('Ackley Function')
-
-# plt.show()
-
-print(x_mesh)
-print(x_mesh.flatten())
+    # Update velocities using F = ma
+    earth.velocity += (F_earth_sun / m_earth) * dt + (F_moon_earth / m_earth) * dt
+    moon.velocity += (F_moon_sun / m_moon) * dt + (F_moon_earth / m_moon) * dt
+    
+    # Update positions using v = dx/dt
+    earth.pos += earth.velocity * dt
+    moon.pos += moon.velocity * dt
