@@ -14,21 +14,26 @@ class Particle:
         self.phi_g = phi_g
 
     def updatePos(self):
-        self.x = self.x + self.v
+        for i in range(len(self.x)):
+            self.x[i] = self.x[i]+self.v[i]
         return self
     
-    def updateVel(self,p,g):
+    def updateVel(self,g):
         rP = rd.uniform(0,1)
         rG = rd.uniform(0,1)
-        self.v = self.w*self.v + self.phi_p*rP*(p-self.x) + self.phi_g*rG*(g-self.x) 
+        for i in range(len(self.v)):
+            self.v[i] = self.w*self.v[i] + self.phi_p*rP*(self.p[i]-self.x[i]) + self.phi_g*rG*(g[i]-self.x[i]) 
         return self
 
-    def updateValue(self,p,g):
-        if self.x < p:
-            p = self.x
-        if p < g:
-            g = p
-        return p,g
+    def updateValue(self,func,g):
+        if func(self.x) < func(self.p):
+            self.p = self.x
+        if func(self.p) < func(g):
+            g = self.p
+        return self.p,g
+
+def f(x):
+    return ((x[0]-3.14)**2+(x[1]-2.72)**2+np.sin(3*x[0]+1.41)+np.sin(4*x[1]-1.73))
 
 def ackley3D(x):
     a = 20
@@ -46,3 +51,14 @@ def ackley3D(x):
     term2 = -1*np.exp(sum2/d)
 
     return term1+term2+a+np.exp(1)
+
+# part = Particle([0.,0.,0.],[1.,2.,-1.],0.8,0.1,0.1)
+# part.updatePos()
+# print(part.x)
+# part.updatePos()
+# print(part.x)
+# part.p = part.x
+# part.updateVel([0,0,0])
+# print(part.v)
+# part.updatePos()
+# print(part.x)

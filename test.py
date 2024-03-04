@@ -1,45 +1,40 @@
-from vpython import *
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+from matplotlib.animation import FuncAnimation
 
-# Constants
-G = 6.67430e-11  # Gravitational constant
-m_sun = 1.989e30  # Mass of the sun in kg
-m_earth = 5.972e24  # Mass of the Earth in kg
-m_moon = 7.342e22  # Mass of the Moon in kg
-r_earth = 149.6e9 / 1e8  # Average distance of Earth from Sun in 1e8 meters
-r_moon = 384.4e6 / 1e8  # Average distance of Moon from Earth in 1e8 meters
-v_earth = 29780 / 1e3  # Average velocity of Earth in km/s
-v_moon = 1022 / 1e3  # Average velocity of Moon in km/s
+# Create some data
+t = np.linspace(0, 2*np.pi, 100)
+x = np.sin(t)
+y = np.cos(t)
+z = t
 
-# Define objects
-sun = sphere(pos=vector(0,0,0), radius=0.696e8, color=color.yellow)
-earth = sphere(pos=vector(r_earth,0,0), radius=6.371e6, color=color.blue, make_trail=True)
-moon = sphere(pos=vector(r_earth + r_moon,0,0), radius=1.737e6, color=color.gray(0.5))
+# Create a figure and axis
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
 
-# Initial velocities
-earth.velocity = vector(0, v_earth, 0)
-moon.velocity = vector(0, v_earth + v_moon, 0)
+# Set limits for the axes
+ax.set_xlim(-1.5, 1.5)
+ax.set_ylim(-1.5, 1.5)
+ax.set_zlim(0, 2*np.pi)
 
-# Time step
-dt = 60  # in seconds
+# Create a point
+point, = ax.plot([], [], [], 'ro')  # 'ro' means red circle marker
 
-# Simulation loop
-while True:
-    rate(1000)
-    
-    # Calculate distance vectors
-    r_earth_sun = sun.pos - earth.pos
-    r_moon_earth = earth.pos - moon.pos
-    r_moon_sun = sun.pos - moon.pos
-    
-    # Calculate gravitational forces
-    F_earth_sun = G * m_sun * m_earth * r_earth_sun / mag(r_earth_sun)**3
-    F_moon_earth = G * m_earth * m_moon * r_moon_earth / mag(r_moon_earth)**3
-    F_moon_sun = G * m_sun * m_moon * r_moon_sun / mag(r_moon_sun)**3
-    
-    # Update velocities using F = ma
-    earth.velocity += (F_earth_sun / m_earth) * dt + (F_moon_earth / m_earth) * dt
-    moon.velocity += (F_moon_sun / m_moon) * dt + (F_moon_earth / m_moon) * dt
-    
-    # Update positions using v = dx/dt
-    earth.pos += earth.velocity * dt
-    moon.pos += moon.velocity * dt
+# Initialization function: plot the background of each frame
+def init():
+    point.set_data([], [])
+    point.set_3d_properties([])
+    return point,
+
+# Animation function: this is called sequentially
+def animate(i):
+    point.set_data(x[i], y[i])  # Update the position of the point in 2D
+    point.set_3d_properties(z[i])  # Update the position of the point in 3D
+    return point,
+
+# Create the animation
+ani = FuncAnimation(fig, animate, frames=len(t), init_func=init, blit=True)
+
+# Show the plot
+plt.show()
