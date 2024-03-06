@@ -47,18 +47,7 @@ def ackley3D(x):
         sum1 += x[i]**2
         sum2 += np.cos(c*x[i])
     
-    term1 = -a+np.exp(-b*np.sqrt(sum1/d))
+    term1 = -a*np.exp(-b*np.sqrt(sum1/d))
     term2 = -1*np.exp(sum2/d)
 
     return term1+term2+a+np.exp(1)
-
-# part = Particle([0.,0.,0.],[1.,2.,-1.],0.8,0.1,0.1)
-# part.updatePos()
-# print(part.x)
-# part.updatePos()
-# print(part.x)
-# part.p = part.x
-# part.updateVel([0,0,0])
-# print(part.v)
-# part.updatePos()
-# print(part.x)

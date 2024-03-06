@@ -92,12 +92,13 @@ for i in range(iterations):
 
 
 print('The best path found was',sols[len(sols)-1][0][0],' with a distance value of',sols[len(sols)-1][0][1])
+# Best answer: Some sequence in the order of 1 -> 4 -> 3 -> 5 -> 2 -> 1 , with a value of 52
 
 avgVals = [(s[0][1]+s[1][1]+s[2][1])/3 for s in sols]
 iters = [i for i in range(1,iterations+1)]
 fig, ax = plt.subplots()
 ax.plot(iters,avgVals)
-ax.set_title('Average Path Distance of Three Ants at each Iteration')
+ax.set_title('Average Path Distance of One Ant at each Iteration')
 ax.set_ylabel('Average Path Distance')
 ax.set_xlabel('Iteration')
 ax.grid(True)
