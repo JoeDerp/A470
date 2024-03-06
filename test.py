@@ -20,3 +20,5 @@ plt.contour(x,y,results)
 plt.show()
 plt.scatter(x, y, results)
 plt.show()
+
+print('This is a test')
