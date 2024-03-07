@@ -1,4 +1,4 @@
-import GooseModule.py as gse
+import GooseModule as gse
 import numpy as np
 import matplotlib.pyplot as plt
 
