@@ -3,7 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Intialization
-numGeese = 20
+numGeese = 8
 a = 1
 ch = 0.5
 geese = gse.Geese(numGeese,a,ch)
