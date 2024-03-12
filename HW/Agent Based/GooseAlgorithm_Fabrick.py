@@ -1,7 +1,7 @@
 import GooseModule as gse
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation
+from matplotlib.animation import FuncAnimation, HTMLWriter
 from matplotlib.animation import FFMpegWriter
 #from vpython import *
 
@@ -46,9 +46,9 @@ def animate(step):
 
 # Create the animation
 ani = FuncAnimation(fig2, animate, frames=1000, interval=20)
-writer = FFMpegWriter()
+writer = HTMLWriter()
 #ani.save(filename="C:\\Users\\nfabr\\OneDrive\\Desktop\\A470\\A470\\HW\\Agent Based\\geese.gif", writer="pillow")
-ani.save(filename="C:\\Users\\nfabr\\OneDrive\\Desktop\\A470\\A470\\HW\\Agent Based\\geese.mp4", writer=writer)
+ani.save(filename="C:\\Users\\nfabr\\OneDrive\\Desktop\\A470\\A470\\HW\\Agent Based\\geese.html", writer=writer)
 
 plt.show()
 
