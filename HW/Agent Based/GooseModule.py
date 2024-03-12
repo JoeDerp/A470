@@ -69,9 +69,10 @@ class Geese:
     def updatePos(self,dx):
         for g in self.pop:
             if self.pop.index(g) == self.popLead: # population lead
-                r = np.array([0-g.x[0],0.05]) # move forwards and towards center (x=0)
-                g.x[0] += (r[0]/np.linalg.norm(r))*dx
-                g.x[1] += (r[1]/np.linalg.norm(r))*dx 
+                g.x[0] += (0 - g.x[0])*dx
+                # r = np.array([0-g.x[0],0.05]) # move forwards and towards center (x=0)
+                # g.x[0] += (r[0]/np.linalg.norm(r))*dx
+                # g.x[1] += (r[1]/np.linalg.norm(r))*dx 
             else:
                 if np.linalg.norm(np.array([g.x[0]-self.pop[g.lead_i].x[0],g.x[1]-self.pop[g.lead_i].x[1]])) >= g.d_nom: # Far-Field
                     r = np.array([self.pop[g.lead_i].x[0]-g.x[0],self.pop[g.lead_i].x[1]-g.x[1],]) # Head to lead goose
