@@ -3,48 +3,36 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # Intialization
-numGeese = 8
+numGeese = 10
 a = 1
 ch = 0.5
-geese = gse.Geese(numGeese,a,ch)
+rField = [-numGeese,numGeese]
+geese = gse.Geese(numGeese,a,ch,rField)
 
 fig1, ax1 = plt.subplots()
 for g in geese.pop:
     ax1.plot(g.x[0],g.x[1],'b^')
     ax1.add_artist(plt.Circle((g.x[0], g.x[1]), g.d_nom, color='r', linestyle=':', fill=False))
-ax1.xlim = (0,2*numGeese)
-ax1.ylim = (0,2*numGeese)
+ax1.xlim = (rField[0],rField[1])
+ax1.ylim = (rField[0],rField[1])
+ax1.set_title('Initial Geese Positions')
+ax1.set_ylabel('Y')
+ax1.set_xlabel('X')
+ax1.grid(True)
 
-geese.findLead()
-ax1.add_artist(plt.Rectangle((geese.pop[geese.global_i].x[0]-a, geese.pop[geese.global_i].x[1]-(ch/2)), 2*a, ch, color='g', fill=True))
-geese.rHats()
-
-# Flight
-
-for i in range(1000):
-    dt = 0.1
-    geese.updatePos(dt)
-    geese.findLead()
-    geese.rHats()
+# Simulation
+t = 10000 # number of seconds to run the flight simulation for
+dx = 0.1 # geese travel at 0.1 units/s
+geese.findLeads()
+for i in range(t):
+    geese.rHat()
+    geese.updatePos(dx)
 
 fig2, ax2 = plt.subplots()
 for g in geese.pop:
     ax2.plot(g.x[0],g.x[1],'b^')
+ax2.set_title('Final Geese Positions')
+ax2.set_ylabel('Y')
+ax2.set_xlabel('X')
+ax2.grid(True)
 plt.show()
-# geese = []
-# for g in range(numGeese):
-#     xRand = np.random.uniform(0,numGeese*2,2)
-#     plt.plot(xRand[0],xRand[1],'b^')
-#     plt.xlim(0,2*numGeese)
-#     plt.ylim(0,2*numGeese)
-#     geese.append(gse.Goose(xRand,a,ch))
-#     plt.gca().add_artist(plt.Circle((geese[g].x[0], geese[g].x[1]), geese[g].d_nom, color='r', fill=False))
-
-# # Simulation
-# goose: gse.Goose
-# for goose in geese:
-#     goose.findLead(geese)
-
-
-# plt.gca().add_artist(plt.Rectangle((geese[5].x[0]-a, geese[5].x[1]-(ch/2)), 2*a, ch, color='g', fill=True))
-# plt.show()

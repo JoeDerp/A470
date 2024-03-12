@@ -1,18 +1,18 @@
 import matplotlib.pyplot as plt
 
-import numpy as np
+# Create a figure and axis
+fig, ax = plt.subplots()
 
-def plot_circle(center, radius, linestyle='solid', **kwargs):
-    theta = np.linspace(0, 2*np.pi, 100)
-    x = center[0] + radius * np.cos(theta)
-    y = center[1] + radius * np.sin(theta)
-    plt.plot(x, y, linestyle=linestyle, **kwargs)
+# Define the coordinates of the arrow's start and end points
+x_start, y_start = 0.1, 0.2
+x_end, y_end = 0.7, 0.7
 
-# Example usage
-center = (0, 0)
-radius = 1
-plt.figure(figsize=(6, 6))
-plot_circle(center, radius, linestyle='dashed', color='blue', linewidth=2)
-plt.axis('equal')
-plt.grid(True)
+# Draw the arrow
+ax.arrow(x_start, y_start, x_end - x_start, y_end - y_start)
+
+# Set axis limits
+ax.set_xlim(0, 1)
+ax.set_ylim(0, 1)
+
+# Show the plot
 plt.show()
