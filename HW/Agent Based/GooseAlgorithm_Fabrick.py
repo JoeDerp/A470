@@ -1,8 +1,8 @@
 import GooseModule as gse
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation
-from vpython import *
+from matplotlib.animation import *
+#from vpython import *
 
 # Intialization
 numGeese = 20
@@ -35,11 +35,13 @@ def animate(step):
     geese.updatePos(dx)
     for goose in geese.pop:
         ax2.plot(goose.x[0], goose.x[1], 'b^')
+    yMax = geese.pop[geese.popLead].x[1]
     ax2.set_xlim(rField[0], rField[1])
-    ax2.set_ylim(rField[0], rField[1])
-    ax2.set_title("Geese Positions over Time")
+    ax2.set_ylim(yMax-(rField[1]-rField[0]), yMax+5)
+    ax2.set_title(f'Geese Positions over Time, t = {step}')
     ax2.set_ylabel('Y')
     ax2.set_xlabel('X')
+    ax2.grid(True)
 
 # Create the animation
 ani = FuncAnimation(fig2, animate, frames=1000, interval=20)
