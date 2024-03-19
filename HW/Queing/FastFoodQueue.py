@@ -61,6 +61,11 @@ class Restaurant:
         self.queue += 1
         self.relArrivalTimes.pop(0)
 
-
     def handleDeparture(self):
         pass
+
+    def generate_arrival(self):
+        return np.random.exponential(1./3)
+
+    def generate_service(self):
+        return np.random.exponential(1./4)
