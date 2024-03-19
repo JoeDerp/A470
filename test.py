@@ -1,50 +1,40 @@
-import random
-import simpy
+# import matplotlib.pyplot as plt
 
-RANDOM_SEED = 42
-NEW_CUSTOMER = 0  # Event for a new customer arriving
-ORDER_COMPLETE = 1  # Event for an order being completed
+# # Sample data
+# x = [1, 2, 3, 4, 5]
+# y1 = [10, 15, 20, 18, 25]
+# y2 = [3, 5, 8, 6, 10]
 
-class FastFoodRestaurant(object):
-    def __init__(self, env, num_servers, service_time_range):
-        self.env = env
-        self.queue = simpy.Resource(env, capacity=10)  # Queue with a maximum capacity of 10
-        self.servers = simpy.Resource(env, capacity=num_servers)
-        self.service_time_range = service_time_range
-        self.customer_arrivals = env.process(self.generate_customers())
-        self.orders_served = 0
-        self.total_wait_time = 0
+# fig, ax1 = plt.subplots()
 
-    def generate_customers(self):
-        while True:
-            # Generate a new customer with an interarrival time sampled from an exponential distribution
-            interarrival_time = random.expovariate(1.0 / 3.0)  # 3 customers per minute on average
-            yield self.env.timeout(interarrival_time)
-            self.env.process(self.handle_customer())
+# # Plot data for the first y-axis
+# ax1.plot(x, y1, 'b*')
+# ax1.set_xlabel('X axis')
+# ax1.set_ylabel('Y axis 1', color='b')
 
-    def handle_customer(self):
-        # Request a spot in the queue
-        with self.queue.request() as request:
-            yield request
-            service_time = random.uniform(*self.service_time_range)
-            with self.servers.request() as server_request:
-                start_time = self.env.now
-                yield server_request
-                yield self.env.timeout(service_time)
-                wait_time = self.env.now - start_time
-                self.total_wait_time += wait_time
-                self.orders_served += 1
+# # Create a second y-axis sharing the same x-axis
+# ax2 = ax1.twinx()
+# ax2.plot(x, y2, 'r*')
+# ax2.set_ylabel('Y axis 2', color='r')
 
-def main():
-    random.seed(RANDOM_SEED)
-    num_servers = 3
-    service_time_range = (1, 3)  # Service time range in minutes
-    env = simpy.Environment()
-    restaurant = FastFoodRestaurant(env, num_servers, service_time_range)
-    env.run(until=30)  # Run the simulation for 30 minutes
+# plt.show()
+import matplotlib.pyplot as plt
+import numpy as np
 
-    print(f"Orders served: {restaurant.orders_served}")
-    print(f"Average wait time: {restaurant.total_wait_time / restaurant.orders_served:.2f} minutes")
+# Example data
+x = np.linspace(0, 10, 100)
+num_plots = 3  # Number of plots
 
-if __name__ == "__main__":
-    main()
+# Create multiple figures using a loop
+for i in range(num_plots):
+    fig, ax = plt.subplots()  # Create a new figure and axis for each plot
+    y = np.sin(x + i)  # Example function, you can replace it with your data
+    ax.plot(x, y)
+    ax.set_title(f'Plot {i+1}')  # Set title for each plot
+    ax.set_xlabel('X axis')
+    ax.set_ylabel('Y axis')
+    ax2 = ax.twinx()
+    ax2.plot(x, [yi+3 for yi in y], 'r*')
+    ax2.set_ylabel('Y axis 2', color='r')
+
+plt.show()
