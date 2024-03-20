@@ -101,37 +101,61 @@ class Restaurant:
         # printout of the day
         print(self.numArrivals, 'customers arrived at the restaurant')
         print(self.numDepartures, 'customers departed from the restaurant')
-        print('The final clock was',self.clock)
-        print('The total wait time was',self.totalWait)
+        print('The final clock was',round(self.clock,2),'min')
+        print('The total wait time was',round(self.totalWait,2),'min')
 
-# tSpan = 60*5 # 5 hours of service
-# avgServTime = 1./4
-# numStaff = 5 # 5 servers
-# chipotle = Restaurant(numStaff,tSpan)
-# chipotle.openRestaurant()
-# chipotle.advanceTime()
-# chipotle.closeRestaurant()
+tSpan = 60*5 # 5 hours of service
+avgServTime = 1./4
+numStaff = 1 # 1 server
+chipotle = Restaurant(numStaff,tSpan,avgServTime)
+chipotle.openRestaurant()
+chipotle.advanceTime()
+chipotle.closeRestaurant()
         
-tSpans = [(i+1)*60 for i in range(10)] # service windows of 1 to 10 hours, in minutes
-avgServTime1 = 1./4
-numStaff1 = 1
-waitTimes = []
-numCusts = []
-for t in tSpans:
-    rest = Restaurant(numStaff1,t,avgServTime1)
-    rest.openRestaurant()
-    rest.advanceTime()
-    rest.closeRestaurant()
-    waitTimes.append(rest.totalWait)
-    numCusts.append(rest.numDepartures)
-fig1,ax1 = plt.subplots()
-ax1.plot([t/60 for t in tSpans], waitTimes,'b*')
-ax1.set_title('Day Statistics for Restaurant')
-ax1.set_xlabel('Service Window [hr]')
-ax1.set_ylabel('Total Wait Time [min]', color='b')
-ax1.grid('True')
-ax2 = ax1.twinx()
-ax2.plot([t/60 for t in tSpans], numCusts,'r*')
-ax2.set_ylabel('# of Customers Served', color='r')
+# tSpans = [(i+1)*60 for i in range(10)] # service windows of 1 to 10 hours, in minutes
+# avgServTime1 = 1./4
+# numStaff1 = 1
+# waitTimes = []
+# numCusts = []
+# for t in tSpans:
+#     rest = Restaurant(numStaff1,t,avgServTime1)
+#     rest.openRestaurant()
+#     rest.advanceTime()
+#     rest.closeRestaurant()
+#     waitTimes.append(rest.totalWait)
+#     numCusts.append(rest.numDepartures)
+# fig1,ax1 = plt.subplots()
+# ax1.plot([t/60 for t in tSpans], waitTimes,'b*')
+# ax1.set_title('Day Statistics for Restaurant')
+# ax1.set_xlabel('Service Window [hr]')
+# ax1.set_ylabel('Total Wait Time [min]', color='b')
+# ax1.grid('True')
+# ax2 = ax1.twinx()
+# ax2.plot([t/60 for t in tSpans], numCusts,'r*')
+# ax2.set_ylabel('# of Customers Served', color='r')
 
-plt.show()
+
+# tSpan3 = 10*60 # 10 hours
+# avgServTime3 = 3 # 3 minutes average service time
+# numServers = [i+1 for i in range(5)]
+# waitTimes2 = []
+# for ss in numServers:
+#     for i in range(5):
+#         rest = Restaurant(ss,tSpan3,avgServTime3)
+#         rest.openRestaurant()
+#         rest.advanceTime()
+#         rest.closeRestaurant()
+#         waitTimes2.append(rest.totalWait)
+
+# fig3,ax3 = plt.subplots()
+# ax3.plot([i+1 for i in range(5)], waitTimes2[0:5],'b',label='1 Server')
+# ax3.plot([i+1 for i in range(5)], waitTimes2[5:10],'r',label='2 Servers')
+# ax3.plot([i+1 for i in range(5)], waitTimes2[10:15],'g',label='3 Servers')
+# ax3.plot([i+1 for i in range(5)], waitTimes2[15:20],'y',label='4 Servers')
+# ax3.plot([i+1 for i in range(5)], waitTimes2[20:25],'rebeccapurple',label='5 Servers')
+# ax3.set_title('Total Wait Time vs. Staff Size for 10hr Service')
+# ax3.set_xlabel('Iteration')
+# ax3.set_ylabel('Total Wait Time [min]')
+# ax3.legend(fontsize = 'small')
+# ax3.grid('True')
+# plt.show()
